@@ -1,0 +1,18 @@
+Title : Go Auth Api intergrated with jwt tokens
+
+End Points :
+1.http://localhost:8000/auth/register
+    A new user will created and the unique id will be returned
+    The password will be encoded
+2.http://localhost:8000/auth/login
+    A user will be able to login if user exists and password is correct
+    A jwt token will be created and will be set as a cookie
+3.http://localhost:8000/user/userdetail
+    If the user is logged in and accessing for his own data then only the detail will be returned
+
+    If the user not logged in or accessing for other user detail then an error will be generated saying unauthorised error
+
+4.http://localhost:8000/auth/logout
+    If an user trying to logout someone else's account then an error will be generated saying unauthorised error
+
+    If the an user logout own account then will be successfull
