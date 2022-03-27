@@ -3,9 +3,14 @@ package models
 import (
 	"main/database"
 	"golang.org/x/crypto/bcrypt"
+	"strconv"
+	"time"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gofiber/fiber/v2"
 )
+var secretKey = "qwert125"
 
-func LoginUser(data map[string]interface{}) map[string]interface{}{
+func LoginUser(data map[string]interface{},c *fiber.Ctx) map[string]interface{}{
 
 	var response map[string]interface{} = map[string]interface{}{
 		"Code":"",
@@ -38,9 +43,29 @@ func LoginUser(data map[string]interface{}) map[string]interface{}{
 					response["Status"]="Success"
 					response["Code"]="401"
 				}else{
+				//jwt token will contain the mentioned variables
+				claims := jwt.NewWithClaims(jwt.SigningMethodHS256,jwt.StandardClaims{
+					Issuer : strconv.Itoa(usr_id),
+					ExpiresAt : time.Now().Add(time.Hour * 24).Unix(), //expires after 24 hours
+				})
+				token ,err := claims.SignedString([]byte(secretKey))
+				
+				if err!=nil{
+					response["Message"]=err.Error()
+					response["Status"]="failure"
+					response["Code"]="500"
+				}else{
+					cookie := fiber.Cookie{
+						Name:		"jwt",
+						Value:		token,
+						Expires:	time.Now().Add(time.Hour * 24),
+						HTTPOnly:	true,//Front-end will not be able to access it,it will be only stored and will be sent 
+					}
+					c.Cookie(&cookie)
 					response["Message"]="Successfully loggedin"
 					response["Status"]="Success"
 					response["Code"]="200"
+				}
 				}
 			}else{
 				response["Message"]="user not found"
