@@ -6,6 +6,6 @@
     COPY go.sum .
     RUN go mod download
     COPY . .
-    RUN go get -u github.com/lib/pq
-    RUN go build -o main .
-    CMD ["/go-auth/main"]
+
+    RUN go build -o authmain .
+    CMD ["/go-auth/authmain"]
