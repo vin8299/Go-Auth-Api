@@ -37,6 +37,6 @@ jobs:
       - name: set project
         run: gcloud config set project ${{ secrets.PROJECT_AUTH_ID}}
       - name: build
-        run:  gcloud builds submit --tag gcr.io/${{secrets.PROJECT_AUTH_ID}}/${{secrets.PROJECT_AUTH_ID}}:${{secrets.TOKEN}}
+        run:  gcloud builds submit --tag gcr.io/${{secrets.PROJECT_AUTH_ID}}/${{secrets.PROJECT_AUTH_ID}}:"Auth-Api"
       - name: deploy
-        run:  gcloud run deploy ${{secrets.PROJECT_AUTH_ID}} --image gcloud builds submit --tag gcr.io/${{ secrets.PROJECT_AUTH_ID}}/${{ secrets.PROJECT_AUTH_ID}}:"Auth-Api" --platform managed --allow-unauthenticated --region $RUN_REGION
+        run:  gcloud run deploy ${{secrets.PROJECT_AUTH_ID}} --image gcr.io/${{secrets.PROJECT_AUTH_ID}}/${{secrets.PROJECT_AUTH_ID}}:"Auth-Api" --platform managed --allow-unauthenticated --region $RUN_REGION
