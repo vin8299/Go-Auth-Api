@@ -21,7 +21,7 @@ func LoginUser(data map[string]interface{},c *fiber.Ctx) map[string]interface{}{
 	var usr_password string
 	pgConn,err:=database.GetPG()
     if err!=nil{
-		response["Message"]=err.Error()
+		response["Message"]="Unable to connect to DB "+err.Error()
         response["Status"]="failure"
 		response["Code"]="503"
 		

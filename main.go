@@ -1,6 +1,7 @@
 package main
 
 import (
+    "os"
     "log"
     "main/routes"
     "github.com/gofiber/fiber/v2"
@@ -9,11 +10,14 @@ import (
 
 func main() {
     app := fiber.New()
-
+ 
     app.Use(cors.New(cors.Config{
         AllowCredentials: true,
     }))
     routes.Setup(app)
-
-    log.Fatal(app.Listen(":8000"))
+    port := os.Getenv("PORT")
+    if port == "" {
+          port = "8080"
+  }
+    log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
 }
