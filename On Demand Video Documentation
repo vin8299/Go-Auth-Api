@@ -1,0 +1,22 @@
+Components used in architecture and their purpose:
+1.API Gateway:
+  The user who are accessing our products through mobile , their request will land on api gateway and validating the some written rules on gateway,
+  the request will land on web api server.
+2.Webserver
+  It is the server on which our services are hosted.
+3.Login service:
+  Login service provides the feature to let the user login if user exists and assign the jwt to user so that the user can be authenticated across the pages and other services.
+4.Upload Service:
+  This microservice provides the feature to let the authenticated user upload the video\
+5.As soon as the user upload the video , we store the video meta data corresponding to the user.
+6.Rabbitmq: 
+  We will use rabbitmq as message broker and run a backgroud job to upload the video on AWS S3 bucket
+7.Lambda:
+  AWS trigger the lambda function to create a job for transcoding the videos in MPEG-DASH streaming format.
+8.Elastic transcoder: 
+  This service converts the video into streaming
+9.Cloud front:
+  This is being used to stream the on demand videos.Its stores the cache of the contents for faster delivery.
+
+
+10.I have created an api for login the users and enabling them to access their information only if they are authenticated.
