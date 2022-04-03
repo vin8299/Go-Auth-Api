@@ -16,7 +16,7 @@ func UserDetails(data map[string]interface{}) (map[string]interface{}){
 	
 	pgConn,err:=database.GetPG()
     if err!=nil{
-		response["Message"]=err.Error()
+		response["Message"]="Unable to connect to DB "+err.Error()
         response["Status"]="failure"
 		response["Code"]="503"
 		

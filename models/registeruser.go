@@ -19,7 +19,7 @@ func RegisterUser(data map[string]interface{}) map[string]interface{}{
 	var usr_id int
 	pgConn,err:=database.GetPG()
     if err!=nil{
-		response["Message"]=err.Error()
+		response["Message"]="Unable to connect to DB "+err.Error()
         response["Status"]="failure"
 		response["Code"]="503"
 		
