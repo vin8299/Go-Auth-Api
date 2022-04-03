@@ -1,0 +1,72 @@
+name: Intergrate-Test-Build-Deploy
+
+on:
+  push:
+    branches:
+      - master
+env:
+  RUN_REGION: us-east1
+
+jobs:
+  I-T-B-D:
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+        platform: [ubuntu-latest]
+    runs-on:  ${{ matrix.platform }}
+
+    steps:
+      - name: Testing
+        uses:  actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - uses: actions/checkout@v2
+
+      - name: Test
+        run:  go test ./...
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          version: "290.0.1"
+
+      - name: start google cli
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.AUTH_JSON }}
+      - name: set project
+        run: gcloud config set project ${{ secrets.PROJECT_AUTH_ID}}
+      - name: build
+        run:  gcloud builds submit --tag gcr.io/${{secrets.PROJECT_AUTH_ID}}/${{secrets.PROJECT_AUTH_ID}}:"Auth-Api"
+      - name: deploy
+        run:  gcloud run deploy ${{secrets.PROJECT_AUTH_ID}} --image gcr.io/${{secrets.PROJECT_AUTH_ID}}/${{secrets.PROJECT_AUTH_ID}}:"Auth-Api" --platform managed --allow-unauthenticated --region $RUN_REGION
+
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+      - name: merge master to stage branches
+        uses: everlytic/branch-merge@1.1.2
+        with:
+          github_token: ${{secrets.TOKEN}}
+          source_ref: 'master'
+          target_branch: 'stage'
+          commit_message_template: 'Merged {source_ref} into {target_branch}.'
+
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+      - name: merge stage to production branches
+        uses: everlytic/branch-merge@1.1.2
+        with:
+          github_token: ${{secrets.TOKEN}}
+          source_ref: 'stage'
+          target_branch: 'production'
+          commit_message_template: 'Merged {source_ref} into {target_branch}.'
