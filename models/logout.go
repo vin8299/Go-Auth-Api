@@ -16,7 +16,7 @@ func Logout(c *fiber.Ctx)(map[string]interface{}){
 	//Create a new cookie with past time
 	cookie := fiber.Cookie{
 		Name:		"jwt",
-		Value:		"",
+		Value:		" ",
 		Expires:	time.Now().Add(-time.Hour),
 		HTTPOnly:	true,//Front-end will not be able to access it,it will be only stored and will be sent 
 	}
