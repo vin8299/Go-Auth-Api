@@ -15,7 +15,7 @@ func LoginUser(data map[string]interface{},c *fiber.Ctx) map[string]interface{}{
 	var response map[string]interface{} = map[string]interface{}{
 		"Code":"",
 		"Status":"",
-		"Message":"",
+		"Message":" ",
 	}
 	var usr_id int
 	var usr_password string
