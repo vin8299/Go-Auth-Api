@@ -17,3 +17,6 @@ Components used in architecture and their purpose:
   This service converts the video into streaming
 9.Cloud front:
   This is being used to stream the on demand videos.Its stores the cache of the contents for faster delivery.
+
+
+10.I have created an api for login the users and enabling them to access their information only if they are authenticated.
