@@ -1,0 +1,11 @@
+CI/CD implementation using github actions.
+
+We can automate the complete process of integrating the changes and testing the changes using github actions.
+
+After the testing get completed and all the test cases get passed then we can build a docker image of application and deploy it on the desired enviroment.
+
+
+I have created a automated process in which as soon as any developer push the changes on dev environment, the github workflow get trigger 
+which run the test cases and after comletion it builds an image and deploy it on google cloun run.
+
+File : build-deploy.yml
