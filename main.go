@@ -1,6 +1,7 @@
 package main
 
 import (
+    "fmt"
     "os"
     "log"
     "main/routes"
