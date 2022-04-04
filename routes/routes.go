@@ -5,6 +5,7 @@ import(
 )
 
 func Setup(app *fiber.App){
+	app.Get("/hello",controllers.Hello)
 	app.Post("/auth/register", controllers.Register)
 	app.Post("/auth/login",controllers.Login)
 	app.Get("/user/userdetail",controllers.UserDetail)
